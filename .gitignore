@@ -31,7 +31,6 @@ build/
 .vscode/
 
 jenkins/
-jenkins/logs/tasks/
 src_airbnb_spring.zip
-jenkins/logs/tasks/**
+
 
