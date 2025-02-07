@@ -11,4 +11,9 @@ public class MainController {
         return "index.html";
     }
 
+    @GetMapping("/login1")
+    public String login() {
+        return "login1.html";
+    }
+
 }

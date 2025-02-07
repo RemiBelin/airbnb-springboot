@@ -19,6 +19,15 @@ services:
       - 8585:8080
     depends_on:
       - postgres
+  nginx:
+    container_name: nginx
+    image: nginx
+    build: ./airbnb-front
+    volumes:
+      - ./airbnb-front/dist:/usr/share/nginx/html
+    ports:
+      - "80:80"
+      - "443:443"
   adminer:
     image: adminer
     restart: always

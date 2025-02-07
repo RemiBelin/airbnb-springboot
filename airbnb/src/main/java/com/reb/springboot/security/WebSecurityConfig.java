@@ -12,6 +12,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity(debug = false)
@@ -19,17 +22,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().and().authorizeRequests()
-                .antMatchers("/login_page","/postlogin").permitAll()
+                .antMatchers("/login1","/postlogin").permitAll()
                 .anyRequest().authenticated()
                 //.anyRequest().permitAll()
-                .and()
-           .formLogin()
+              //  .and().exceptionHandling().defaultAuthenticationEntryPointFor(loginUrlauthenticationEntryPoint(), new AntPathRequestMatcher("/**"))
+                .and().formLogin()
                 //.loginPage("/login_page").loginProcessingUrl("/api/postlogin").usernameParameter("username").passwordParameter("password")
-                .loginProcessingUrl("/api/postlogin").usernameParameter("username").passwordParameter("password")
+                .loginProcessingUrl("/api/postlogin").usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/",true)
                 .permitAll()
                 .and()
             .logout()
                 .permitAll().and().csrf().disable();
+    }
+
+    @Bean
+    public AuthenticationEntryPoint loginUrlauthenticationEntryPoint(){
+        LoginUrlAuthenticationEntryPoint url = new LoginUrlAuthenticationEntryPoint("/login1");
+        //url.setUseForward(true);
+        return url;
     }
 
     @Bean
